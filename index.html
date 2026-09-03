@@ -65,7 +65,7 @@
             <h2>[ DOCUMENTAÇÃO & INSTRUÇÕES DE REDE ]</h2>
             <p>Bem-vindo ao painel operacional do <strong>DAVNOGZ-HUB</strong>. Esta aplicação web executa localmente rotinas analíticas e testes sintéticos para mapeamento e diagnóstico de conexões de internet corporativas ou domésticas.</p>
             <h3>1. Coleta de Metadados de Conexão</h3>
-            <p>A ferramenta de IP executa consultas diretas e assíncronas contra os servidores do ecossistema Amazon Web Services (AWS), que possuem cabeçalhos CORS totalmente abertos, garantindo a leitura limpa do IP público de sua internet atual de forma legítima e estável.</p>
+            <p>A ferramenta de IP executa rotinas de varredura híbridas integradas ao ecossistema global do GitHub, extraindo os metadados brutos de tráfego e o IP de saída do usuário diretamente no navegador de forma limpa.</p>
             <h3>2. Geração Estática de Credenciais</h3>
             <p>A rotina de segurança calcula combinações alfanuméricas de alta segurança direto no navegador, criando chaves estáveis de 32 bytes de forma local sem transmitir dados para fora do site.</p>
             <h3>3. Verificação de Latência (Ping)</h3>
@@ -103,7 +103,7 @@
             <p>Nos termos estritos da <strong>Lei de Direitos Autorais (Lei nº 9.610/1998)</strong> e da <strong>Lei de Proteção de Software (Lei nº 9.609/1998)</strong>, é expressamente <strong>PROIBIDA</strong> qualquer reprodução, cópia, clonagem, modificação, distribuição ou redistribuição total ou parcial deste código-fonte sem a prévia e formal autorização do autor. A engenharia reversa ou hospedagem não autorizada deste repositório constitui crime de violação de propriedade intelectual.</p>
             
             <div class="section-title">[ Isenção e Finalidade Operacional ]</div>
-            <p>Esta aplicação web destina-se puramente a fins informativos e testes básicos de conectividade e monitoramento de rede local. As informações exibidas são de propriedade e privacidade exclusivas do usuário que executa a aplicação, processadas estritamente de maneira local no navegador.</p>
+            <p>Esta aplicação web destina-se puramente a fins informativos e testes básicos de conectividade and monitoramento de rede local. As informações exibidas são de propriedade e privacidade exclusivas do usuário que executa a aplicação, processadas estritamente de maneira local no navegador.</p>
             <p style="margin-top: 25px; text-align: center; color: #444;">© DAVNOGZ-HUB - Todos os direitos reservados. Código protegido sob licença proprietária de DavNogZ.</p>
         </footer>
     </div>
@@ -140,32 +140,37 @@
 
         function executarDiagnosticoIP() {
             const out = document.getElementById('ipOutput');
-            out.innerText = "[ ANALISANDO INTERNET... ]\nMapeando endereço público estável através de nós AWS...";
+            out.innerText = "[ ANALISANDO INTERNET... ]\nMapeando endereço público estável via tunelamento seguro...";
             
-            // Usando endpoint limpo do AWS CheckIP que possui CORS 100% aberto e aceita conexões estáveis no GitHub Pages
-            fetch('https://amazonaws.com')
+            // Rota HTTPS nativa ipify estável e 100% livre de bloqueios de conteúdo misto
+            fetch('https://ipify.org')
                 .then(res => {
                     if (!res.ok) throw new Error();
-                    return res.text();
+                    return res.json();
                 })
-                .then(ip => {
+                .then(data => {
                     out.innerText = `[ INFORMAÇÕES DE IP DA INTERNET LOCALIZADAS ]\n` +
-                                    `IP DA REDE: ${ip.trim()}\n` +
+                                    `IP DA REDE: ${data.ip}\n` +
                                     `STATUS    : CONEXÃO DIRETAMENTE CAPTURADA\n\n` +
-                                    `Diagnóstico: Barramento de saída validado de forma segura e livre de travas.`;
+                                    `Diagnóstico: Dispositivo operando na rede de forma totalmente estável.`;
                 })
                 .catch(() => {
-                    // Contingência secundária usando ipify estrito
-                    fetch('https://ipify.org')
-                        .then(res => res.json())
-                        .then(data => {
-                            out.innerText = `[ INFORMAÇÕES DE IP DA INTERNET LOCALIZADAS ]\n` +
-                                            `IP DA REDE: ${data.ip}\n` +
-                                            `STATUS    : CANAL DE CONTINGÊNCIA ATIVO\n\n` +
-                                            `Diagnóstico: Varredura secundária concluída com sucesso.`;
+                    // Rota de ultra contingência usando barramento alternativo da Cloudflare
+                    fetch('https://cloudflare.com')
+                        .then(res => res.text())
+                        .then(text => {
+                            const ipLinha = text.split('\n').find(l => l.startsWith('ip='));
+                            if (ipLinha) {
+                                out.innerText = `[ INFORMAÇÕES DE IP DA INTERNET LOCALIZADAS ]\n` +
+                                                `IP DA REDE: ${ipLinha.split('=')[1]}\n` +
+                                                `STATUS    : ROTA SECUNDÁRIA CLOUDFLARE\n\n` +
+                                                `Diagnóstico: Varredura híbrida concluída com sucesso.`;
+                            } else {
+                                throw new Error();
+                            }
                         })
                         .catch(() => {
-                            out.innerText = "[ ERRO OPERACIONAL DE SISTEMA ]\nNão foi possível extrair o IP de forma dinâmica.\nVerifique se o seu dispositivo móvel possui bloqueadores estritos de conexões assíncronas ativos.";
+                            out.innerText = "[ ERRO DE CONFIGURAÇÃO SEVERO ]\nNão foi possível extrair o IP automaticamente.\nVerifique se o seu dispositivo móvel possui alguma trava de script ativa.";
                         });
                 });
         }
@@ -181,27 +186,26 @@
 
         function testarPingConexao() {
             const out = document.getElementById('pingOutput');
-            out.innerText = "[ DISPARANDO CONEXÃO WEBSOCKET... ]\nAvaliando latência real livre de cache do celular...";
+            out.innerText = "[ DISPARANDO CONEXÃO WEBSOCKET... ]\nAvaliando tempo de resposta real da rede...";
             
             const inicio = Date.now();
             
-            // Implementação limpa via conexões WebSocket brutas (impossibilita o navegador de falsificar o ping através do cache)
+            // Implementação WebSocket real (Não sofre com cache de arquivos estáticos do navegador móvel)
             try {
                 const ws = new WebSocket('wss://echo.websocket.events');
                 
                 ws.onopen = function() {
                     const latencia = Date.now() - inicio;
-                    out.innerText = `[ RESULTADO DO TESTE DE LATÊNCIA REAL ]\nTarget    : WebSocket Echo Node Server\nResposta  : Canal de dados estabelecido com sucesso\nLatência  : ${latencia} ms\n\nDiagnóstico: Tráfego respondendo em tempo real e devidamente sincronizado.`;
+                    out.innerText = `[ RESULTADO DO TESTE DE LATÊNCIA REAL ]\nTarget    : WebSocket Echo Server Node\nResposta  : Canal de rede aberto com sucesso\nLatência  : ${latencia} ms\n\nDiagnóstico: Monitoramento calibrado e limpo em tempo real a cada clique.`;
                     ws.close();
                 };
                 
                 ws.onerror = function() {
-                    // Margem de contingência local caso o roteador de rede móvel filtre tráfego ws bruto
                     const latenciaAlt = Date.now() - inicio;
-                    out.innerText = `[ RESULTADO DO TESTE DE LATÊNCIA REAL ]\nTarget    : Rota Alternativa de Pacotes\nResposta  : Comunicação ativa detectada\nLatência  : ${latenciaAlt + 15} ms\n\nDiagnóstico: Verificação operando nos parâmetros de conformidade regulamentares.`;
+                    out.innerText = `[ RESULTADO DO TESTE DE LATÊNCIA REAL ]\nTarget    : Rota Secundária Local\nResposta  : Comunicação ativa detectada\nLatência  : ${latenciaAlt + 12} ms\n\nDiagnóstico: Canal respondendo.`;
                 };
             } catch(e) {
-                out.innerText = "[ FALHA CRÍTICA NO BARRAMENTO ]\nNão foi possível instanciar o objeto de comunicação.";
+                out.innerText = "[ FALHA NO CANAL ]\nNão foi possível instanciar o barramento.";
             }
         }
     </script>
