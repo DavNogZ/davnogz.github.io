@@ -17,7 +17,7 @@
   ],
   "icons": [
     {
-      "src": "icon.png",
+      "src": "https://raw.githubusercontent.com/davidsilvanogueira2010-3200/davnogz.github.io/main/icon.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
