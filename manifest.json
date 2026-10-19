@@ -1,26 +1,14 @@
-{
-  "name": "DavNogZ-HUB",
-  "short_name": "davnogz",
-  "description": "DAVNOGZ-HUB: Plataforma de monitoramento de rede local, diagnóstico de IP público, testes de latência (ping Cloudflare) e gerador de tokens de segurança.",
-  "start_url": "/",
-  "display": "fullscreen",
-  "background_color": "#00ff00",
-  "theme_color": "#0a0a0a",
-  "orientation": "any",
-  "scope": "/",
-  "lang": "en",
-  "categories": [
-    "network",
-    "networking",
-    "security",
-    "utilities"
-  ],
   "icons": [
     {
-      "src": "https://raw.githubusercontent.com/DavNogZ/davnogz.github.io/main/icon.png",
+      "src": "icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     }
   ]
-}
