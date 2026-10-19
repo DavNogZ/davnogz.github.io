@@ -489,4 +489,9 @@
                     out.innerText = `[ LATÊNCIA EM TEMPO REAL ]\nTarget  : Cloudflare DNS (1.1.1.1)\nResposta: Estável\nPing    : ${latencia} ms`;
                 })
                 .catch(() => {
-                    out.innerText = `[ LATÊNCIA EM TEMPO REAL ]
+                    out.innerText = `[ LATÊNCIA EM TEMPO REAL ]\nTarget  : Cloudflare DNS (1.1.1.1)\nResposta: Falha / Timeout\nPing    : Indisponível`;
+                });
+        }
+    </script>
+</body>
+</html>
