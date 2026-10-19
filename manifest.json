@@ -1,5 +1,4 @@
-{
-  "background_color": "#00ff00",
+"background_color": "#00ff00",
   "description": "DAVNOGZ-HUB: Plataforma de monitoramento de rede local, diagnóstico de IP público, testes de latência (ping Cloudflare) e gerador de tokens de segurança.",
   "dir": "ltr",
   "display": "fullscreen",
