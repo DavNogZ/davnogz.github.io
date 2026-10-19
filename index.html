@@ -18,7 +18,7 @@
     <meta name="theme-color" content="#0a0a0a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="/manifest.json">
 
     <style>
         :root { 
@@ -401,7 +401,7 @@
                 infoContent.style.display = 'none'; 
                 socialBar.style.display = 'flex';
                 scriptCards.forEach(card => card.style.display = 'block');
-                btnHome.classList.active ? null : btnHome.classList.add('active');
+                btnHome.classList.add('active');
                 btnInfo.classList.remove('active');
             }
         }
@@ -489,4 +489,4 @@
                     out.innerText = `[ LATÊNCIA EM TEMPO REAL ]\nTarget  : Cloudflare DNS (1.1.1.1)\nResposta: Estável\nPing    : ${latencia} ms`;
                 })
                 .catch(() => {
-                    out.innerT
+                    out.innerText = `[ LATÊNCIA EM TEMPO REAL ]
