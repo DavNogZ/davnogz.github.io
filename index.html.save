@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DavNogz Hub</title>
+    <style>
+        :root {
+            --matrix-green: #00ff00;
+            --bg-color: #0a0a0a;
+            --card-bg: #141414;
+            --border-color: #222;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Courier New', Courier, monospace; }
+        
+        body {
+            background-color: var(--bg-color);
+            color: #e0e0e0;
+            overflow-x: hidden;
+            padding-bottom: 50px;
+        }
+
+        /* Efeito de Fundo Matrix */
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            opacity: 0.15;
+        }
+
+        /* Topo com Título RGB Animado Quadrado */
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        @keyframes rgb-text {
+            0% { color: #ff0000; text-shadow: 0 0 10px #ff0000; }
+            33% { color: #00ff00; text-shadow: 0 0 10px #00ff00; }
+            66% { color: #0000ff; text-shadow: 0 0 10px #0000ff; }
+            100% { color: #ff0000; text-shadow: 0 0 10px #ff0000; }
+        }
+
+        .title-rgb {
+            font-size: 3.2rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            animation: rgb-text 6s infinite linear;
+            letter-spacing: -2px;
+            display: inline-block;
+        }
+
+        /* Área do Conteúdo */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Feed de Scripts */
+        .script-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .script-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #222;
+            padding-bottom: 8px;
+        }
+        .script-title { color: var(--matrix-green); font-size: 1.2rem; font-weight: bold; }
+        
+        button {
+            background: transparent;
+            color: var(--matrix-green);
+             border: 1px solid var(--matrix-green);
+            padding: 5px 12px;
+            cursor: pointer;
+            font-weight: bold;
+             text-transform: uppercase;
+            transition: 0.3s;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        button:hover {
+            background: var(--matrix-green);
+            color: #000;
+            box-shadow: 0 0 10px var(--matrix-green);
+        }
+
+        pre {
+            background: #050505;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            border: 1px solid #1a1a1a;
+        }
+        code {
+            color: #a9ffaf;
+            font-size: 14px;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="matrix-canvas"></canvas>
+
+    <header>
+        <div class="title-rgb">DavNogz Hub</div>
+        <p style="color: #666; margin-top: 10px;">// Repositório Público de Scripts Termux</p>
+    </header>
+
+    <div class="container">
+        <!-- Bloco 1: Tool-X -->
+        <div class="script-card">
+            <div class="script-header">
+                <div class="script-title">> Instalação Tool-X</div>
+                <button id="copyBtn1" onclick="copiarCodigo('codeBlock1', 'copyBtn1')">Copiar</button>
+            </div>
+            <pre><code id="codeBlock1">apt upgrade && apt update && pkg install git && pkg install python && pkg install python2 && pkg install python3 && bash <(curl -s https://githubusercontent.com) && toolx</code></pre>
+        </div>
+
+        <!-- Bloco 2: Zphisher -->
+        <div class="script-card">
+            <div class="script-header">
+                <div class="script-title">> Instalação Zphisher</div>
+                <button id="copyBtn2" onclick="copiarCodigo('codeBlock2', 'copyBtn2')">Copiar</button>
+            </div>
+            <pre><code id="codeBlock2">apt update && apt upgrade && pkg install python && pkg install git && git clone --depth=1 https://github.com/htr-tech/zphisher.git && cd zphisher && bash zphisher.sh</code></pre>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. EFEITO MATRIX ---
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const alphabet = "01010101010101010101010101010101";
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const rainDrops = Array(Math.floor(columns)).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(10, 10, 10, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#00ff00';
+            ctx.font = fontSize + 'px monospace';
+            for (let i = 0; i < rainDrops.length; i++) {
+                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) rainDrops[i] = 0;
+                rainDrops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 30);
+        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+
+        // --- 2. FUNÇÃO COPIAR INTELIGENTE ---
+        function copiarCodigo(idBloco, idBotao) {
+            const texto = document.getElementById(idBloco).innerText;
+            const btn = document.getElementById(idBotao);
+            
+            navigator.clipboard.writeText(texto).then(() => {
+                btn.innerText = "Copiado!";
+                setTimeout(() => { btn.innerText = "Copiar"; }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
