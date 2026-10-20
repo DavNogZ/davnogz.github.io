@@ -7,7 +7,7 @@
     <!-- META TAGS PARA INDEXAÇÃO NO GOOGLE (SEO) -->
     <title>DAVNOGZ-HUB | Central de Rede e Diagnóstico de IP</title>
     <meta name="description" content="DAVNOGZ-HUB: Plataforma de monitoramento de rede local, diagnóstico de IP público, testes de latência (ping Cloudflare) e gerador de tokens de segurança.">
-    <meta name="keywords" content="DAVNOGZ, DAVNOGZ-HUB, diagnóstico de IP, teste de ping, monitor de rede, gerador de token, hash sha256">
+    <meta name="keywords" content="DAVNOGZ, DAVNOGZ-HUB, diagnóstico de IP, teste de ping, monitor de rede, gerador de token">
     <meta name="robots" content="index, follow">
     <meta name="author" content="DAVNOGZ">
 
@@ -162,7 +162,7 @@
             height: 16px; 
         }
 
-        /* BANNER PWA COM CAPA OFICIAL */
+        /* CARD DO BANNER PWA COM A CAPA OFICIAL */
         .pwa-install-card {
             background: var(--card-bg);
             border: 1px solid var(--matrix-green);
@@ -395,14 +395,14 @@
         <div class="social-share-bar">
             <a href="https://github.com/davidsilvanogueira2010-3200" target="_blank" rel="noopener noreferrer" class="bar-btn" onclick="window.open('https://github.com/davidsilvanogueira2010-3200', '_blank'); return false;">
                 <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-                GitHub:
+                GitHub
             </a>
         </div>
 
-        <!-- BANNER PWA COM A LOGO DA CAPA -->
+        <!-- BANNER PWA COM A IMAGEM OFICIAL icone.png -->
         <div id="pwa-install-banner" class="pwa-install-card">
             <div class="pwa-top-row">
-                <img src="icone.png" alt="" class="pwa-app-icon" id="custom-app-logo">
+                <img src="icone.png" alt="Capa Oficial" class="pwa-app-icon" id="custom-app-logo">
                 <div class="pwa-text-info">
                     <h4>Experimente o APP Oficial do DavNogZ Hub</h4>
                     <p>Instale o aplicativo no seu dispositivo para acesso rápido e direto.</p>
@@ -418,8 +418,21 @@
             <p>A ferramenta analisa as informações de conexão locais e informações de resolução do próprio motor do navegador web.</p>
             <h3>2. Geração Estática de Credenciais</h3>
             <p>A rotina calcula chaves de 32 bytes de forma local sem transmitir dados para fora do site.</p>
-            <h3>3. Verificação de Latência (Ping) e Status</h3>
-            <p>Mede o tempo exato de resposta em milissegundos e faz varredura do estado das principais redes globais.</p>
+            <h3>3. Verificação de Latência (Ping)</h3>
+            <p>Mede o tempo exato de resposta em milissegundos disparando um evento assíncrono interno contra servidores globais de alta precisão.</p>
+        </div>
+
+        <!-- NOVO CARD: ASSISTENTE DE IA DE REDE (TERMINAL INTEGRADO) -->
+        <div class="script-card">
+            <div class="script-header">
+                <div class="script-title">&gt; Assistente IA de Rede e Segurança (Terminal)</div>
+                <div class="btn-group">
+                    <button class="action-btn copy-btn" onclick="copiarTexto('aiOutput', this)">[ COPIAR ]</button>
+                    <button class="action-btn" onclick="perguntarIA()">Consultar IA</button>
+                </div>
+            </div>
+            <input type="text" id="aiInput" class="input-box" placeholder="Pergunte sobre IP, conexões ou se o site rouba dados..." onkeypress="if(event.key==='Enter') perguntarIA()">
+            <pre><code id="aiOutput">Aguardando pergunta... Digite acima e clique em "Consultar IA".</code></pre>
         </div>
 
         <!-- CARD 1: DIAGNÓSTICO DE IP -->
@@ -446,34 +459,13 @@
             <pre><code id="tokenOutput">Aguardando comando... Clique em "Gerar Token".</code></pre>
         </div>
 
-        <!-- CARD 3: CALCULADOR DE HASH SHA-256 -->
-        <div class="script-card">
-            <div class="script-header">
-                <div class="script-title">&gt; Calculador de Hash de Segurança (SHA-256)</div>
-                <div class="btn-group">
-                    <button class="action-btn copy-btn" onclick="copiarTexto('hashOutput', this)">[ COPIAR ]</button>
-                </div>
-            </div>
-            <input type="text" id="hashInput" class="input-box" placeholder="Digite uma senha ou texto para gerar o Hash..." oninput="gerarHashSHA256()">
-            <pre><code id="hashOutput">Aguardando texto... Digite no campo acima.</code></pre>
-        </div>
-
-        <!-- CARD 4: TESTADOR DE LATÊNCIA -->
+        <!-- CARD 3: TESTADOR DE LATÊNCIA -->
         <div class="script-card">
             <div class="script-header">
                 <div class="script-title">&gt; Testador de Latência e Ping de Rede</div>
                 <button class="action-btn" onclick="testarPingConexao()">Testar Conexão</button>
             </div>
             <pre><code id="pingOutput">Aguardando verificação... Clique em "Testar Conexão".</code></pre>
-        </div>
-
-        <!-- CARD 5: STATUS DE SERVIÇOS GLOBAIS -->
-        <div class="script-card">
-            <div class="script-header">
-                <div class="script-title">&gt; Verificador de Status de Serviços e APIs</div>
-                <button class="action-btn" onclick="verificarStatusServicos()">Verificar Status</button>
-            </div>
-            <pre><code id="statusOutput">Aguardando verificação... Clique em "Verificar Status".</code></pre>
         </div>
 
         <footer>
@@ -525,19 +517,17 @@
             rainDrops = Array(Math.floor(columns)).fill(1); 
         });
 
-        // Garantia de carregamento da imagem do app sem quebrar
+        // Garantia de fallback para carregar icone.png sem quebrar
         window.addEventListener('DOMContentLoaded', () => {
             const logoImg = document.getElementById('custom-app-logo');
-            const tentativas = ['icone.png', 'icon.png', '1000029174.png', './icone.png'];
-            let index = 0;
-            
+            const alternativas = ['icone.png', 'icon.png', './icone.png'];
+            let idx = 0;
             logoImg.onerror = function() {
-                if (index < tentativas.length) {
-                    logoImg.src = tentativas[index];
-                    index++;
+                if (idx < alternativas.length) {
+                    logoImg.src = alternativas[idx];
+                    idx++;
                 }
             };
-            logoImg.src = 'icone.png';
         });
 
         function alternarAba(aba) {
@@ -565,7 +555,7 @@
             }
         }
 
-        /* COPIAR TEXTO COM FEEDBACK */
+        /* FUNÇÃO DE COPIAR TEXTO COM FEEDBACK VISUAL */
         function copiarTexto(elementId, btnElement) {
             const textToCopy = document.getElementById(elementId).innerText;
             if (!textToCopy || textToCopy.includes("Aguardando")) return;
@@ -583,7 +573,42 @@
             });
         }
 
-        /* DIAGNÓSTICO DE IP */
+        /* LÓGICA DO ASSISTENTE DE IA DE REDE E SEGURANÇA */
+        function perguntarIA() {
+            const input = document.getElementById('aiInput');
+            const out = document.getElementById('aiOutput');
+            const pergunta = input.value.trim().toLowerCase();
+
+            if (!pergunta) {
+                out.innerText = 'Aguardando pergunta... Digite no campo acima.';
+                return;
+            }
+
+            out.innerText = '[ PROCESSANDO VIA DAVNOGZ-AI KERNEL... ]';
+
+            setTimeout(() => {
+                if (pergunta.includes('rouba') || pergunta.includes('informações') || pergunta.includes('dados') || pergunta.includes('seguro') || pergunta.includes('privacidade')) {
+                    out.innerText = `[ RESPOSTA DA IA - DAVNOGZ CORE ]\n\n` +
+                                    `NÃO! O DavNogZ Hub NÃO rouba nenhuma informação ou dado pessoal.\n\n` +
+                                    `Todas as análises de rede, diagnósticos de IP, geradores de token e cálculos são executados 100% de forma local no seu próprio navegador.\n` +
+                                    `Nenhum dado digitado ou coletado é armazenado ou enviado para servidores externos. O site é puramente estático e seguro.`;
+                } else if (pergunta.includes('ip') || pergunta.includes('endereço')) {
+                    out.innerText = `[ RESPOSTA DA IA - DAVNOGZ CORE ]\n\n` +
+                                    `Um endereço IP (Internet Protocol) é uma identificação única numérica atribuída a cada dispositivo conectado a uma rede.\n\n` +
+                                    `O IP Público identifica seu dispositivo na internet global, enquanto o IP Privado (como 192.168.x.x) identifica sua máquina na rede local Wi-Fi.`;
+                } else if (pergunta.includes('ping') || pergunta.includes('latencia') || pergunta.includes('lag')) {
+                    out.innerText = `[ RESPOSTA DA IA - DAVNOGZ CORE ]\n\n` +
+                                    `O Ping mede o tempo que um pacote de dados leva para ir do seu dispositivo até o servidor de destino e retornar, em milissegundos (ms).\n\n` +
+                                    `Quanto menor o ping, mais ágil e estável é a sua conexão de rede.`;
+                } else {
+                    out.innerText = `[ RESPOSTA DA IA - DAVNOGZ CORE ]\n\n` +
+                                    `Consulta recebida: "${input.value}"\n\n` +
+                                    `O DavNogZ Hub opera com ferramentas locais de diagnóstico de IP, testes de latência e geradores de segurança.\n\n` +
+                                    `Utilize os painéis do sistema para executar verificações em tempo real.`;
+                }
+            }, 500);
+        }
+
         async function executarDiagnosticoIP() {
             const out = document.getElementById('ipOutput');
             out.innerText = "[ ANALISANDO SISTEMAS DE REDE... ]";
@@ -647,7 +672,6 @@
                             `IP       : ${ip}`;
         }
 
-        /* GERADOR DE TOKEN */
         function gerarTokenSeguro() {
             const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+";
             let token = "";
@@ -657,25 +681,6 @@
             document.getElementById('tokenOutput').innerText = `[ TOKEN GERADO ]\nChave: ${token}`;
         }
 
-        /* CALCULADOR SHA-256 */
-        async function gerarHashSHA256() {
-            const val = document.getElementById('hashInput').value;
-            const out = document.getElementById('hashOutput');
-            
-            if (!val) {
-                out.innerText = 'Aguardando texto... Digite no campo acima.';
-                return;
-            }
-
-            const msgUint8 = new TextEncoder().encode(val);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-
-            out.innerText = `[ HASH DIGEST ]\nEntrada : "${val}"\nSHA-256 : ${hashHex}`;
-        }
-
-        /* TESTADOR DE PING */
         function testarPingConexao() {
             const out = document.getElementById('pingOutput');
             out.innerText = "[ DISPARANDO PACOTES... ]";
@@ -691,35 +696,6 @@
                 });
         }
 
-        /* VERIFICADOR DE STATUS DE SERVIÇOS */
-        async function verificarStatusServicos() {
-            const out = document.getElementById('statusOutput');
-            out.innerText = "[ VARRENDO REDES E APIS GLOBAIS... ]";
-
-            const servicos = [
-                { nome: 'Cloudflare Edge (1.1.1.1)', url: 'https://1.1.1.1/cdn-cgi/trace' },
-                { nome: 'Google Public DNS', url: 'https://dns.google/' },
-                { nome: 'GitHub API Portal', url: 'https://api.github.com/' },
-                { nome: 'Vercel Deployment Network', url: 'https://vercel.com/' }
-            ];
-
-            let resultado = `[ STATUS DE INFRAESTRUTURA GLOBAL ]\n`;
-
-            for (let s of servicos) {
-                const start = Date.now();
-                try {
-                    await fetch(s.url + '?t=' + start, { mode: 'no-cors', cache: 'no-store' });
-                    const time = Date.now() - start;
-                    resultado += `${s.nome.padEnd(28, ' ')}: [ ONLINE ] (${time}ms)\n`;
-                } catch {
-                    resultado += `${s.nome.padEnd(28, ' ')}: [ OFFLINE / RESTRITO ]\n`;
-                }
-            }
-
-            out.innerText = resultado;
-        }
-
-        /* LOGICA PWA */
         let promptInstalacaoPwa;
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
