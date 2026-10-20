@@ -162,7 +162,7 @@
             height: 16px; 
         }
 
-        /* CARD DO BANNER PWA COM A CAPA OFICIAL */
+        /* CARD DO BANNER PWA COM A CAPA EMBUTIDA */
         .pwa-install-card {
             background: var(--card-bg);
             border: 1px solid var(--matrix-green);
@@ -250,17 +250,11 @@
             margin-bottom: 12px; 
             border-bottom: 1px solid #222; 
             padding-bottom: 10px; 
-            flex-wrap: wrap;
-            gap: 8px;
         }
         .script-title { 
             color: var(--matrix-green); 
             font-size: 1.2rem; 
             font-weight: bold; 
-        }
-        .btn-group {
-            display: flex;
-            gap: 8px;
         }
         .action-btn { 
             background: transparent; 
@@ -269,37 +263,11 @@
             padding: 6px 14px; 
             cursor: pointer; 
             font-size: 13px; 
-            border-radius: 3px;
-            transition: all 0.2s;
         }
         .action-btn:hover { 
             background: var(--matrix-green); 
             color: #000; 
             box-shadow: 0 0 10px var(--matrix-green); 
-        }
-        .copy-btn {
-            border-color: #555;
-            color: #aaa;
-        }
-        .copy-btn:hover {
-            border-color: var(--matrix-green);
-            color: #000;
-        }
-        .input-box {
-            width: 100%;
-            background: #050505;
-            border: 1px solid #333;
-            color: var(--matrix-green);
-            padding: 10px;
-            font-family: inherit;
-            font-size: 13px;
-            margin-bottom: 12px;
-            border-radius: 4px;
-            outline: none;
-        }
-        .input-box:focus {
-            border-color: var(--matrix-green);
-            box-shadow: 0 0 8px rgba(0, 255, 0, 0.3);
         }
         pre { 
             background: #050505; 
@@ -399,12 +367,12 @@
             </a>
         </div>
 
-        <!-- BANNER PWA COM A IMAGEM OFICIAL icone.png -->
+        <!-- BANNER PWA COM A SUA IMAGEM OFICIAL DIRETAMENTE EMBUTIDA -->
         <div id="pwa-install-banner" class="pwa-install-card">
             <div class="pwa-top-row">
-                <img src="icone.png" alt="Capa Oficial" class="pwa-app-icon" id="custom-app-logo">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEAAQMAAABmvDolAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAFBJREFUeJztwTEBAAAAwqD1T20M66AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8GYeAAABK5n78AAAAABJRU5ErkJggg==" alt="Capa Oficial" class="pwa-app-icon" id="custom-app-logo">
                 <div class="pwa-text-info">
-                    <h4>Experimente o APP Oficial do DavNogZ Hub</h4>
+                    <h4>Experimente o Novo APP Oficial do DavNogZ Hub</h4>
                     <p>Instale o aplicativo no seu dispositivo para acesso rápido e direto.</p>
                 </div>
             </div>
@@ -422,44 +390,22 @@
             <p>Mede o tempo exato de resposta em milissegundos disparando um evento assíncrono interno contra servidores globais de alta precisão.</p>
         </div>
 
-        <!-- NOVO CARD: ASSISTENTE DE IA DE REDE (TERMINAL INTEGRADO) -->
-        <div class="script-card">
-            <div class="script-header">
-                <div class="script-title">&gt; Assistente IA de Rede e Segurança (Terminal)</div>
-                <div class="btn-group">
-                    <button class="action-btn copy-btn" onclick="copiarTexto('aiOutput', this)">[ COPIAR ]</button>
-                    <button class="action-btn" onclick="perguntarIA()">Consultar IA</button>
-                </div>
-            </div>
-            <input type="text" id="aiInput" class="input-box" placeholder="Pergunte sobre IP, conexões ou se o site rouba dados..." onkeypress="if(event.key==='Enter') perguntarIA()">
-            <pre><code id="aiOutput">Aguardando pergunta... Digite acima e clique em "Consultar IA".</code></pre>
-        </div>
-
-        <!-- CARD 1: DIAGNÓSTICO DE IP -->
         <div class="script-card">
             <div class="script-header">
                 <div class="script-title">&gt; Diagnóstico Completo de IP Público</div>
-                <div class="btn-group">
-                    <button class="action-btn copy-btn" onclick="copiarTexto('ipOutput', this)">[ COPIAR ]</button>
-                    <button class="action-btn" onclick="executarDiagnosticoIP()">Analisar IP</button>
-                </div>
+                <button class="action-btn" onclick="executarDiagnosticoIP()">Analisar IP</button>
             </div>
             <pre><code id="ipOutput">Aguardando execução... Clique em "Analisar IP".</code></pre>
         </div>
 
-        <!-- CARD 2: GERADOR DE TOKENS -->
         <div class="script-card">
             <div class="script-header">
                 <div class="script-title">&gt; Gerador de Chaves de Segurança e Tokens</div>
-                <div class="btn-group">
-                    <button class="action-btn copy-btn" onclick="copiarTexto('tokenOutput', this)">[ COPIAR ]</button>
-                    <button class="action-btn" onclick="gerarTokenSeguro()">Gerar Token</button>
-                </div>
+                <button class="action-btn" onclick="gerarTokenSeguro()">Gerar Token</button>
             </div>
             <pre><code id="tokenOutput">Aguardando comando... Clique em "Gerar Token".</code></pre>
         </div>
 
-        <!-- CARD 3: TESTADOR DE LATÊNCIA -->
         <div class="script-card">
             <div class="script-header">
                 <div class="script-title">&gt; Testador de Latência e Ping de Rede</div>
@@ -517,17 +463,20 @@
             rainDrops = Array(Math.floor(columns)).fill(1); 
         });
 
-        // Garantia de fallback para carregar icone.png sem quebrar
+        // Script para forçar carregamento correto da imagem do app caso o nome exato mude
         window.addEventListener('DOMContentLoaded', () => {
             const logoImg = document.getElementById('custom-app-logo');
-            const alternativas = ['icone.png', 'icon.png', './icone.png'];
-            let idx = 0;
+            const tentativas = ['icone.png', 'icon.png', '1000029174.png', '1000029174_2.png', './icone.png'];
+            let index = 0;
+            
             logoImg.onerror = function() {
-                if (idx < alternativas.length) {
-                    logoImg.src = alternativas[idx];
-                    idx++;
+                if (index < tentativas.length) {
+                    logoImg.src = tentativas[index];
+                    index++;
                 }
             };
+            // Inicia tentando carregar pelo nome oficial do repositório
+            logoImg.src = 'icone.png';
         });
 
         function alternarAba(aba) {
@@ -555,166 +504,5 @@
             }
         }
 
-        /* FUNÇÃO DE COPIAR TEXTO COM FEEDBACK VISUAL */
-        function copiarTexto(elementId, btnElement) {
-            const textToCopy = document.getElementById(elementId).innerText;
-            if (!textToCopy || textToCopy.includes("Aguardando")) return;
-
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                const originalText = btnElement.innerText;
-                btnElement.innerText = "[ COPIADO! ]";
-                btnElement.style.background = "#00ff00";
-                btnElement.style.color = "#000";
-                setTimeout(() => {
-                    btnElement.innerText = originalText;
-                    btnElement.style.background = "transparent";
-                    btnElement.style.color = "#aaa";
-                }, 1500);
-            });
-        }
-
-        /* LÓGICA DO ASSISTENTE DE IA DE REDE E SEGURANÇA */
-        function perguntarIA() {
-            const input = document.getElementById('aiInput');
-            const out = document.getElementById('aiOutput');
-            const pergunta = input.value.trim().toLowerCase();
-
-            if (!pergunta) {
-                out.innerText = 'Aguardando pergunta... Digite no campo acima.';
-                return;
-            }
-
-            out.innerText = '[ PROCESSANDO VIA DAVNOGZ-AI KERNEL... ]';
-
-            setTimeout(() => {
-                if (pergunta.includes('rouba') || pergunta.includes('informações') || pergunta.includes('dados') || pergunta.includes('seguro') || pergunta.includes('privacidade')) {
-                    out.innerText = `[ RESPOSTA DA IA - DAVNOGZ CORE ]\n\n` +
-                                    `NÃO! O DavNogZ Hub NÃO rouba nenhuma informação ou dado pessoal.\n\n` +
-                                    `Todas as análises de rede, diagnósticos de IP, geradores de token e cálculos são executados 100% de forma local no seu próprio navegador.\n` +
-                                    `Nenhum dado digitado ou coletado é armazenado ou enviado para servidores externos. O site é puramente estático e seguro.`;
-                } else if (pergunta.includes('ip') || pergunta.includes('endereço')) {
-                    out.innerText = `[ RESPOSTA DA IA - DAVNOGZ CORE ]\n\n` +
-                                    `Um endereço IP (Internet Protocol) é uma identificação única numérica atribuída a cada dispositivo conectado a uma rede.\n\n` +
-                                    `O IP Público identifica seu dispositivo na internet global, enquanto o IP Privado (como 192.168.x.x) identifica sua máquina na rede local Wi-Fi.`;
-                } else if (pergunta.includes('ping') || pergunta.includes('latencia') || pergunta.includes('lag')) {
-                    out.innerText = `[ RESPOSTA DA IA - DAVNOGZ CORE ]\n\n` +
-                                    `O Ping mede o tempo que um pacote de dados leva para ir do seu dispositivo até o servidor de destino e retornar, em milissegundos (ms).\n\n` +
-                                    `Quanto menor o ping, mais ágil e estável é a sua conexão de rede.`;
-                } else {
-                    out.innerText = `[ RESPOSTA DA IA - DAVNOGZ CORE ]\n\n` +
-                                    `Consulta recebida: "${input.value}"\n\n` +
-                                    `O DavNogZ Hub opera com ferramentas locais de diagnóstico de IP, testes de latência e geradores de segurança.\n\n` +
-                                    `Utilize os painéis do sistema para executar verificações em tempo real.`;
-                }
-            }, 500);
-        }
-
         async function executarDiagnosticoIP() {
-            const out = document.getElementById('ipOutput');
-            out.innerText = "[ ANALISANDO SISTEMAS DE REDE... ]";
-
-            const navConn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-            let tipoRede = "WIFI LOCAL";
-            let seguranca = "WPA2-Personal / WPA3";
-            let statusConn = navigator.onLine ? "CONECTADO" : "DESCONECTADO";
-
-            if (navConn) {
-                let checkType = navConn.type || navConn.effectiveType || "";
-                if (checkType.includes("cellular") || checkType.includes("4g") || checkType.includes("5g")) {
-                    tipoRede = "DADOS MÓVEIS (5G/4G)";
-                    seguranca = "CHANNELS_LTE_SECURE";
-                } else {
-                    let downlink = navConn.downlink || 10;
-                    let rtt = navConn.rtt || 50;
-
-                    if (downlink >= 15 && rtt <= 40) {
-                        seguranca = "WPA2-Personal / WPA3";
-                    } else if (downlink >= 4 && rtt <= 90) {
-                        seguranca = "WPA2-Personal";
-                    } else {
-                        seguranca = "WPA";
-                    }
-                }
-            }
-
-            let ip = "Mapeado via Gateway";
-            let provedor = "Buscando...";
-
-            try {
-                let res = await fetch('https://ipapi.co/json/');
-                if (!res.ok) throw new Error();
-                let data = await res.json();
-                ip = data.ip || ip;
-                provedor = data.org || data.isp || "Provedor Local";
-            } catch {
-                try {
-                    let res2 = await fetch('https://ip-api.com/json/');
-                    let data2 = await res2.json();
-                    ip = data2.query || ip;
-                    provedor = data2.isp || data2.org || "Provedor Local";
-                } catch {
-                    try {
-                        let res3 = await fetch('https://api.ipify.org?format=json');
-                        let data3 = await res3.json();
-                        ip = data3.ip || ip;
-                        provedor = "Provedor Local / ISP";
-                    } catch {
-                        provedor = "Provedor Local / ISP";
-                    }
-                }
-            }
-
-            out.innerText = `[ INFORMAÇÕES DE INFRAESTRUTURA ]\n` +
-                            `Provedor : ${provedor}\n` +
-                            `Segurança: ${seguranca}\n` +
-                            `Status   : ${statusConn}\n` +
-                            `Tipo     : ${tipoRede}\n` +
-                            `IP       : ${ip}`;
-        }
-
-        function gerarTokenSeguro() {
-            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+";
-            let token = "";
-            for (let i = 0; i < 32; i++) { 
-                token += chars.charAt(Math.floor(Math.random() * chars.length)); 
-            }
-            document.getElementById('tokenOutput').innerText = `[ TOKEN GERADO ]\nChave: ${token}`;
-        }
-
-        function testarPingConexao() {
-            const out = document.getElementById('pingOutput');
-            out.innerText = "[ DISPARANDO PACOTES... ]";
-            const inicio = Date.now();
-
-            fetch('https://1.1.1.1/cdn-cgi/trace?t=' + inicio, { mode: 'no-cors', cache: 'no-store' })
-                .then(() => {
-                    const latencia = Date.now() - inicio;
-                    out.innerText = `[ LATÊNCIA EM TEMPO REAL ]\nTarget  : Cloudflare DNS (1.1.1.1)\nResposta: Estável\nPing    : ${latencia} ms`;
-                })
-                .catch(() => {
-                    out.innerText = `[ LATÊNCIA EM TEMPO REAL ]\nTarget  : Cloudflare DNS (1.1.1.1)\nResposta: Falha no Ping`;
-                });
-        }
-
-        let promptInstalacaoPwa;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            promptInstalacaoPwa = e;
-        });
-
-        function instalarPwaApp() {
-            if (promptInstalacaoPwa) {
-                promptInstalacaoPwa.prompt();
-                promptInstalacaoPwa.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        document.getElementById('pwa-install-banner').style.display = 'none';
-                    }
-                    promptInstalacaoPwa = null;
-                });
-            } else {
-                alert('Para instalar o app, toque no menu do seu navegador (três pontos no canto superior) e selecione "Adicionar à tela inicial" ou "Instalar aplicativo".');
-            }
-        }
-    </script>
-</body>
-</html>
+            const out = document.getElementById('ip
