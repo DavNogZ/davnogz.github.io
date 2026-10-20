@@ -7,7 +7,7 @@
     <!-- META TAGS PARA INDEXAÇÃO NO GOOGLE (SEO) -->
     <title>DAVNOGZ-HUB | Central de Rede e Diagnóstico de IP</title>
     <meta name="description" content="DAVNOGZ-HUB: Plataforma de monitoramento de rede local, diagnóstico de IP público, testes de latência (ping Cloudflare) e gerador de tokens de segurança.">
-    <meta name="keywords" content="DAVNOGZ, DAVNOGZ-HUB, diagnóstico de IP, teste de ping, monitor de rede, gerador de token">
+    <meta name="keywords" content="DAVNOGZ, DAVNOGZ-HUB, diagnóstico de IP, teste de ping, monitor de rede, gerador de token, hash sha256">
     <meta name="robots" content="index, follow">
     <meta name="author" content="DAVNOGZ">
 
@@ -162,7 +162,7 @@
             height: 16px; 
         }
 
-        /* CARD DO BANNER PWA COM A CAPA EMBUTIDA */
+        /* BANNER PWA COM CAPA OFICIAL */
         .pwa-install-card {
             background: var(--card-bg);
             border: 1px solid var(--matrix-green);
@@ -250,11 +250,17 @@
             margin-bottom: 12px; 
             border-bottom: 1px solid #222; 
             padding-bottom: 10px; 
+            flex-wrap: wrap;
+            gap: 8px;
         }
         .script-title { 
             color: var(--matrix-green); 
             font-size: 1.2rem; 
             font-weight: bold; 
+        }
+        .btn-group {
+            display: flex;
+            gap: 8px;
         }
         .action-btn { 
             background: transparent; 
@@ -263,11 +269,37 @@
             padding: 6px 14px; 
             cursor: pointer; 
             font-size: 13px; 
+            border-radius: 3px;
+            transition: all 0.2s;
         }
         .action-btn:hover { 
             background: var(--matrix-green); 
             color: #000; 
             box-shadow: 0 0 10px var(--matrix-green); 
+        }
+        .copy-btn {
+            border-color: #555;
+            color: #aaa;
+        }
+        .copy-btn:hover {
+            border-color: var(--matrix-green);
+            color: #000;
+        }
+        .input-box {
+            width: 100%;
+            background: #050505;
+            border: 1px solid #333;
+            color: var(--matrix-green);
+            padding: 10px;
+            font-family: inherit;
+            font-size: 13px;
+            margin-bottom: 12px;
+            border-radius: 4px;
+            outline: none;
+        }
+        .input-box:focus {
+            border-color: var(--matrix-green);
+            box-shadow: 0 0 8px rgba(0, 255, 0, 0.3);
         }
         pre { 
             background: #050505; 
@@ -367,10 +399,10 @@
             </a>
         </div>
 
-        <!-- BANNER PWA COM A SUA IMAGEM OFICIAL DIRETAMENTE EMBUTIDA -->
+        <!-- BANNER PWA COM A LOGO DA CAPA -->
         <div id="pwa-install-banner" class="pwa-install-card">
             <div class="pwa-top-row">
-                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEAAQMAAABmvDolAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAFBJREFUeJztwTEBAAAAwqD1T20M66AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8GYeAAABK5n78AAAAABJRU5ErkJggg==" alt="Capa Oficial" class="pwa-app-icon" id="custom-app-logo">
+                <img src="icone.png" alt="" class="pwa-app-icon" id="custom-app-logo">
                 <div class="pwa-text-info">
                     <h4>Experimente o APP Oficial do DavNogZ Hub</h4>
                     <p>Instale o aplicativo no seu dispositivo para acesso rápido e direto.</p>
@@ -386,32 +418,62 @@
             <p>A ferramenta analisa as informações de conexão locais e informações de resolução do próprio motor do navegador web.</p>
             <h3>2. Geração Estática de Credenciais</h3>
             <p>A rotina calcula chaves de 32 bytes de forma local sem transmitir dados para fora do site.</p>
-            <h3>3. Verificação de Latência (Ping)</h3>
-            <p>Mede o tempo exato de resposta em milissegundos disparando um evento assíncrono interno contra servidores globais de alta precisão.</p>
+            <h3>3. Verificação de Latência (Ping) e Status</h3>
+            <p>Mede o tempo exato de resposta em milissegundos e faz varredura do estado das principais redes globais.</p>
         </div>
 
+        <!-- CARD 1: DIAGNÓSTICO DE IP -->
         <div class="script-card">
             <div class="script-header">
                 <div class="script-title">&gt; Diagnóstico Completo de IP Público</div>
-                <button class="action-btn" onclick="executarDiagnosticoIP()">Analisar IP</button>
+                <div class="btn-group">
+                    <button class="action-btn copy-btn" onclick="copiarTexto('ipOutput', this)">[ COPIAR ]</button>
+                    <button class="action-btn" onclick="executarDiagnosticoIP()">Analisar IP</button>
+                </div>
             </div>
             <pre><code id="ipOutput">Aguardando execução... Clique em "Analisar IP".</code></pre>
         </div>
 
+        <!-- CARD 2: GERADOR DE TOKENS -->
         <div class="script-card">
             <div class="script-header">
                 <div class="script-title">&gt; Gerador de Chaves de Segurança e Tokens</div>
-                <button class="action-btn" onclick="gerarTokenSeguro()">Gerar Token</button>
+                <div class="btn-group">
+                    <button class="action-btn copy-btn" onclick="copiarTexto('tokenOutput', this)">[ COPIAR ]</button>
+                    <button class="action-btn" onclick="gerarTokenSeguro()">Gerar Token</button>
+                </div>
             </div>
             <pre><code id="tokenOutput">Aguardando comando... Clique em "Gerar Token".</code></pre>
         </div>
 
+        <!-- CARD 3: CALCULADOR DE HASH SHA-256 -->
+        <div class="script-card">
+            <div class="script-header">
+                <div class="script-title">&gt; Calculador de Hash de Segurança (SHA-256)</div>
+                <div class="btn-group">
+                    <button class="action-btn copy-btn" onclick="copiarTexto('hashOutput', this)">[ COPIAR ]</button>
+                </div>
+            </div>
+            <input type="text" id="hashInput" class="input-box" placeholder="Digite uma senha ou texto para gerar o Hash..." oninput="gerarHashSHA256()">
+            <pre><code id="hashOutput">Aguardando texto... Digite no campo acima.</code></pre>
+        </div>
+
+        <!-- CARD 4: TESTADOR DE LATÊNCIA -->
         <div class="script-card">
             <div class="script-header">
                 <div class="script-title">&gt; Testador de Latência e Ping de Rede</div>
                 <button class="action-btn" onclick="testarPingConexao()">Testar Conexão</button>
             </div>
             <pre><code id="pingOutput">Aguardando verificação... Clique em "Testar Conexão".</code></pre>
+        </div>
+
+        <!-- CARD 5: STATUS DE SERVIÇOS GLOBAIS -->
+        <div class="script-card">
+            <div class="script-header">
+                <div class="script-title">&gt; Verificador de Status de Serviços e APIs</div>
+                <button class="action-btn" onclick="verificarStatusServicos()">Verificar Status</button>
+            </div>
+            <pre><code id="statusOutput">Aguardando verificação... Clique em "Verificar Status".</code></pre>
         </div>
 
         <footer>
@@ -463,10 +525,10 @@
             rainDrops = Array(Math.floor(columns)).fill(1); 
         });
 
-        // Script para forçar carregamento correto da imagem do app caso o nome exato mude
+        // Garantia de carregamento da imagem do app sem quebrar
         window.addEventListener('DOMContentLoaded', () => {
             const logoImg = document.getElementById('custom-app-logo');
-            const tentativas = ['icone.png', 'icon.png', '1000029174.png', '1000029174_2.png', './icone.png'];
+            const tentativas = ['icone.png', 'icon.png', '1000029174.png', './icone.png'];
             let index = 0;
             
             logoImg.onerror = function() {
@@ -475,7 +537,6 @@
                     index++;
                 }
             };
-            // Inicia tentando carregar pelo nome oficial do repositório
             logoImg.src = 'icone.png';
         });
 
@@ -504,6 +565,25 @@
             }
         }
 
+        /* COPIAR TEXTO COM FEEDBACK */
+        function copiarTexto(elementId, btnElement) {
+            const textToCopy = document.getElementById(elementId).innerText;
+            if (!textToCopy || textToCopy.includes("Aguardando")) return;
+
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const originalText = btnElement.innerText;
+                btnElement.innerText = "[ COPIADO! ]";
+                btnElement.style.background = "#00ff00";
+                btnElement.style.color = "#000";
+                setTimeout(() => {
+                    btnElement.innerText = originalText;
+                    btnElement.style.background = "transparent";
+                    btnElement.style.color = "#aaa";
+                }, 1500);
+            });
+        }
+
+        /* DIAGNÓSTICO DE IP */
         async function executarDiagnosticoIP() {
             const out = document.getElementById('ipOutput');
             out.innerText = "[ ANALISANDO SISTEMAS DE REDE... ]";
@@ -567,6 +647,7 @@
                             `IP       : ${ip}`;
         }
 
+        /* GERADOR DE TOKEN */
         function gerarTokenSeguro() {
             const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+";
             let token = "";
@@ -576,6 +657,25 @@
             document.getElementById('tokenOutput').innerText = `[ TOKEN GERADO ]\nChave: ${token}`;
         }
 
+        /* CALCULADOR SHA-256 */
+        async function gerarHashSHA256() {
+            const val = document.getElementById('hashInput').value;
+            const out = document.getElementById('hashOutput');
+            
+            if (!val) {
+                out.innerText = 'Aguardando texto... Digite no campo acima.';
+                return;
+            }
+
+            const msgUint8 = new TextEncoder().encode(val);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+            out.innerText = `[ HASH DIGEST ]\nEntrada : "${val}"\nSHA-256 : ${hashHex}`;
+        }
+
+        /* TESTADOR DE PING */
         function testarPingConexao() {
             const out = document.getElementById('pingOutput');
             out.innerText = "[ DISPARANDO PACOTES... ]";
@@ -589,6 +689,34 @@
                 .catch(() => {
                     out.innerText = `[ LATÊNCIA EM TEMPO REAL ]\nTarget  : Cloudflare DNS (1.1.1.1)\nResposta: Falha no Ping`;
                 });
+        }
+
+        /* VERIFICADOR DE STATUS DE SERVIÇOS */
+        async function verificarStatusServicos() {
+            const out = document.getElementById('statusOutput');
+            out.innerText = "[ VARRENDO REDES E APIS GLOBAIS... ]";
+
+            const servicos = [
+                { nome: 'Cloudflare Edge (1.1.1.1)', url: 'https://1.1.1.1/cdn-cgi/trace' },
+                { nome: 'Google Public DNS', url: 'https://dns.google/' },
+                { nome: 'GitHub API Portal', url: 'https://api.github.com/' },
+                { nome: 'Vercel Deployment Network', url: 'https://vercel.com/' }
+            ];
+
+            let resultado = `[ STATUS DE INFRAESTRUTURA GLOBAL ]\n`;
+
+            for (let s of servicos) {
+                const start = Date.now();
+                try {
+                    await fetch(s.url + '?t=' + start, { mode: 'no-cors', cache: 'no-store' });
+                    const time = Date.now() - start;
+                    resultado += `${s.nome.padEnd(28, ' ')}: [ ONLINE ] (${time}ms)\n`;
+                } catch {
+                    resultado += `${s.nome.padEnd(28, ' ')}: [ OFFLINE / RESTRITO ]\n`;
+                }
+            }
+
+            out.innerText = resultado;
         }
 
         /* LOGICA PWA */
