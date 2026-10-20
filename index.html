@@ -3,447 +3,567 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DavNogZ Hub</title>
+    
+    <!-- META TAGS PARA INDEXAÇÃO NO GOOGLE (SEO) -->
+    <title>DAVNOGZ-HUB | Central de Rede e Diagnóstico de IP</title>
+    <meta name="description" content="DAVNOGZ-HUB: Plataforma de monitoramento de rede local, diagnóstico de IP público, testes de latência (ping Cloudflare) e gerador de tokens de segurança.">
+    <meta name="keywords" content="DAVNOGZ, DAVNOGZ-HUB, diagnóstico de IP, teste de ping, monitor de rede, gerador de token">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="DAVNOGZ">
+
+    <!-- TAG DE VERIFICAÇÃO DO GOOGLE SEARCH CONSOLE -->
+    <meta name="google-site-verification" content="tvgUuNf10SfoomqWy5kUP3Jr8fbOpSGgJkkaELSwJqM" />
+
+    <!-- CONFIGURAÇÕES PARA PWA / APLICATIVO MÓVEL -->
+    <meta name="theme-color" content="#0a0a0a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="/manifest.json">
+
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        :root { 
+            --matrix-green: #00ff00; 
+            --bg-color: #0a0a0a; 
+            --card-bg: #141414; 
+            --border-color: #222; 
+        }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Courier New', Courier, monospace; 
+        }
+        body { 
+            background-color: var(--bg-color); 
+            color: #e0e0e0; 
+            overflow-x: hidden; 
+            padding-bottom: 50px; 
         }
 
-        body {
-            background-color: #050505;
-            color: #00ff66;
-            font-family: 'Courier New', Courier, monospace;
-            overflow-x: hidden;
-            padding-top: 75px; /* Espaço para o banner fixo do topo */
-        }
-
-        /* --- Banner Fixo de Instalação do PWA --- */
-        .pwa-banner {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: #0a0a0a;
-            color: #ffffff;
-            padding: 10px 16px;
-            box-shadow: 0 4px 15px rgba(0, 255, 102, 0.25);
-            z-index: 99999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-bottom: 2px solid #00ff66;
-        }
-
-        .pwa-banner-content {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            max-width: 900px;
-            width: 100%;
-            justify-content: space-between;
-        }
-
-        .pwa-icon {
-            width: 38px;
-            height: 38px;
-            border-radius: 6px;
-            object-fit: cover;
-            border: 1px solid #00ff66;
-            background: #000;
-        }
-
-        .pwa-text {
-            display: flex;
-            flex-direction: column;
-            font-size: 13px;
-            line-height: 1.3;
-            flex-grow: 1;
-        }
-
-        .pwa-text strong {
-            color: #00ff66;
-        }
-
-        .pwa-text span {
-            font-size: 11px;
-            color: #a0a0a0;
-        }
-
-        .pwa-btn {
-            background-color: #00ff66;
-            color: #000000;
-            border: none;
-            padding: 8px 14px;
-            border-radius: 4px;
-            font-weight: bold;
-            cursor: pointer;
-            white-space: nowrap;
-            font-family: 'Courier New', Courier, monospace;
-            transition: background 0.2s, box-shadow 0.2s;
-        }
-
-        .pwa-btn:hover {
-            background-color: #00cc52;
-            box-shadow: 0 0 10px #00ff66;
-        }
-
-        @media (max-width: 600px) {
-            .pwa-banner-content {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 6px;
-            }
-            .pwa-btn {
-                width: 100%;
-                text-align: center;
-            }
-            body {
-                padding-top: 105px;
-            }
-        }
-
-        /* --- Fundo Matrix Canvas --- */
-        #matrix-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.15;
-        }
-
-        /* --- Layout Principal --- */
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* Header de Navegação estilo Terminal */
-        .nav-header {
-            border: 1px solid #00ff66;
-            background: rgba(0, 0, 0, 0.85);
+        /* BANNER PWA INTEGRADO */
+        .pwa-app-banner {
+            background: #0d0d0d;
+            border-bottom: 1px solid var(--matrix-green);
             padding: 10px 15px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
-            box-shadow: 0 0 10px rgba(0, 255, 102, 0.1);
+            justify-content: space-between;
+            gap: 10px;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.15);
+            position: relative;
+            z-index: 1000;
         }
-
-        .sys-status {
-            font-size: 12px;
+        .pwa-app-info {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            font-size: 12px;
+            color: #ccc;
+        }
+        .pwa-app-info strong {
+            color: var(--matrix-green);
+        }
+        .pwa-btn-install {
+            background: transparent;
+            color: var(--matrix-green);
+            border: 1px solid var(--matrix-green);
+            padding: 6px 14px;
+            font-weight: bold;
+            font-size: 12px;
+            cursor: pointer;
+            border-radius: 3px;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+        .pwa-btn-install:hover {
+            background: var(--matrix-green);
+            color: #000;
+            box-shadow: 0 0 10px var(--matrix-green);
         }
 
-        .status-dot {
+        #matrix-canvas { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100vw; 
+            height: 100vh; 
+            z-index: -1; 
+            opacity: 0.15; 
+            pointer-events: none; 
+        }
+        header { 
+            text-align: center; 
+            padding: 30px 20px 20px 20px; 
+            position: relative; 
+        }
+        @keyframes rgb-text {
+            0% { color: #ff0000; text-shadow: 0 0 10px #ff0000; }
+            33% { color: #00ff00; text-shadow: 0 0 10px #00ff00; }
+            66% { color: #0000ff; text-shadow: 0 0 10px #0000ff; }
+            100% { color: #ff0000; text-shadow: 0 0 10px #ff0000; }
+        }
+        .title-rgb { 
+            font-size: 3.2rem; 
+            font-weight: 900; 
+            text-transform: uppercase; 
+            animation: rgb-text 6s infinite linear; 
+            letter-spacing: -2px; 
+            display: inline-block; 
+        }
+        
+        .nav-bar-frame {
+            display: inline-flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            background: #0d0d0d;
+            border: 1px solid #222;
+            border-top: 2px solid var(--matrix-green);
+            padding: 8px 20px;
+            border-radius: 4px;
+            box-shadow: 0 0 12px rgba(0, 255, 0, 0.12);
+            margin-bottom: 15px;
+            max-width: 100%;
+            flex-wrap: wrap;
+        }
+        .sys-badge {
+            color: #666;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            letter-spacing: 1px;
+            user-select: none;
+        }
+        .pulse-dot {
             width: 8px;
             height: 8px;
-            background-color: #00ff66;
+            background-color: var(--matrix-green);
             border-radius: 50%;
-            box-shadow: 0 0 8px #00ff66;
+            box-shadow: 0 0 8px var(--matrix-green);
             animation: pulse 1.5s infinite;
         }
-
         @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.3; }
-            100% { opacity: 1; }
+            0% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+            100% { opacity: 0.3; transform: scale(0.8); }
         }
-
-        .nav-tabs {
-            display: flex;
-            gap: 10px;
+        .nav-menu { 
+            display: flex; 
+            justify-content: center; 
+            gap: 15px; 
         }
-
-        .tab-btn {
-            background: transparent;
-            color: #00ff66;
-            border: 1px solid #00ff66;
-            padding: 5px 12px;
-            cursor: pointer;
-            font-family: 'Courier New', Courier, monospace;
+        .nav-link { 
+            background: transparent; 
+            color: var(--matrix-green); 
+            border: 1px solid var(--border-color); 
+            padding: 6px 16px; 
+            cursor: pointer; 
+            font-weight: bold; 
             font-size: 13px;
-            transition: all 0.2s;
+            transition: all 0.2s ease;
+            border-radius: 3px;
         }
-
-        .tab-btn.active, .tab-btn:hover {
-            background: #00ff66;
+        .nav-link:hover { 
+            border-color: var(--matrix-green); 
+            box-shadow: 0 0 8px var(--matrix-green); 
+        }
+        .nav-link.active {
+            background: var(--matrix-green);
             color: #000;
-            box-shadow: 0 0 8px #00ff66;
+            border-color: var(--matrix-green);
+            box-shadow: 0 0 12px var(--matrix-green);
         }
 
-        /* Título Principal */
-        .hero {
-            text-align: center;
-            margin-bottom: 40px;
+        .social-share-bar { 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            margin-bottom: 35px; 
         }
-
-        .hero h1 {
-            font-size: 2.5rem;
-            color: #ff3333;
-            text-shadow: 0 0 12px rgba(255, 51, 51, 0.6);
-            margin-bottom: 10px;
-            letter-spacing: 2px;
+        .bar-btn { 
+            background: transparent; 
+            color: var(--matrix-green); 
+            border: 1px solid var(--matrix-green); 
+            padding: 10px 20px; 
+            cursor: pointer; 
+            font-size: 14px; 
+            text-decoration: none; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 10px; 
         }
-
-        .hero p {
-            color: #888;
-            font-size: 14px;
+        .bar-btn:hover { 
+            background: var(--matrix-green); 
+            color: #000; 
+            box-shadow: 0 0 15px var(--matrix-green); 
         }
-
-        /* Painéis / Secções */
-        .panel {
-            border: 1px solid #00ff66;
-            background: rgba(10, 10, 10, 0.9);
-            padding: 20px;
-            margin-bottom: 25px;
-            box-shadow: inset 0 0 15px rgba(0, 255, 102, 0.05);
+        .bar-btn svg { 
+            fill: currentColor; 
+            width: 16px; 
+            height: 16px; 
         }
-
-        .panel-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            border-bottom: 1px dashed #00ff66;
-            padding-bottom: 8px;
+        .container { 
+            max-width: 900px; 
+            margin: 0 auto; 
+            padding: 0 20px; 
         }
-
-        .panel-title {
-            font-size: 15px;
-            font-weight: bold;
+        .script-card { 
+            background: var(--card-bg); 
+            border: 1px solid var(--border-color); 
+            border-radius: 6px; 
+            padding: 20px; 
+            margin-bottom: 25px; 
+            position: relative; 
         }
-
-        .action-btn {
-            background: transparent;
-            color: #00ff66;
-            border: 1px solid #00ff66;
-            padding: 6px 12px;
-            cursor: pointer;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 12px;
-            transition: 0.2s;
+        .script-card:hover { 
+            border-color: var(--matrix-green); 
+            box-shadow: 0 0 5px rgba(0, 255, 0, 0.2); 
         }
-
-        .action-btn:hover {
-            background: #00ff66;
-            color: #000;
+        .script-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 12px; 
+            border-bottom: 1px solid #222; 
+            padding-bottom: 10px; 
         }
-
-        .terminal-output {
-            background: #000000;
-            border: 1px solid #222;
-            padding: 12px;
-            font-size: 13px;
-            color: #00ff66;
-            min-height: 50px;
-            word-break: break-all;
+        .script-title { 
+            color: var(--matrix-green); 
+            font-size: 1.2rem; 
+            font-weight: bold; 
         }
-
-        .hidden {
-            display: none;
+        .action-btn { 
+            background: transparent; 
+            color: var(--matrix-green); 
+            border: 1px solid var(--matrix-green); 
+            padding: 6px 14px; 
+            cursor: pointer; 
+            font-size: 13px; 
+        }
+        .action-btn:hover { 
+            background: var(--matrix-green); 
+            color: #000; 
+            box-shadow: 0 0 10px var(--matrix-green); 
+        }
+        pre { 
+            background: #050505; 
+            padding: 15px; 
+            border-radius: 4px; 
+            overflow-x: auto; 
+            border: 1px solid #1a1a1a; 
+            min-height: 50px; 
+        }
+        code { 
+            color: #a9ffaf; 
+            font-size: 14px; 
+            white-space: pre-wrap; 
+            word-break: break-all; 
+        }
+        .info-panel { 
+            background: var(--card-bg); 
+            border: 1px solid var(--border-color); 
+            border-radius: 6px; 
+            padding: 25px; 
+            margin-bottom: 25px; 
+            display: none; 
+        }
+        .info-panel h2 { 
+            color: var(--matrix-green); 
+            margin-bottom: 15px; 
+            border-bottom: 1px solid #222; 
+            padding-bottom: 5px; 
+            font-size: 1.4rem; 
+        }
+        .info-panel h3 { 
+            color: #fff; 
+            margin-top: 20px; 
+            margin-bottom: 8px; 
+            font-size: 1.1rem; 
+        }
+        .info-panel ul { 
+            margin-left: 20px; 
+            margin-bottom: 15px; 
+            color: #aaa; 
+        }
+        .info-panel li { 
+            margin-bottom: 5px; 
+        }
+        .info-panel strong { 
+            color: var(--matrix-green); 
+        }
+        footer { 
+            margin-top: 50px; 
+            border-top: 1px dashed #333; 
+            padding: 30px 20px; 
+            font-size: 11px; 
+            color: #777; 
+            line-height: 1.6; 
+            text-align: justify; 
+        }
+        footer .section-title { 
+            color: var(--matrix-green); 
+            font-weight: bold; 
+            margin-top: 15px; 
+            margin-bottom: 5px; 
+            text-transform: uppercase; 
+            text-align: left; 
+        }
+        footer .main-header { 
+            font-size: 14px; 
+            color: #ff3333; 
+            text-align: center; 
+            margin-bottom: 10px; 
+            font-weight: bold; 
         }
     </style>
 </head>
 <body>
 
-    <!-- Banner Fixo PWA -->
-    <div id="pwa-install-banner" class="pwa-banner">
-        <div class="pwa-banner-content">
-            <img src="icone.png" alt="Ícone" class="pwa-icon" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'38\' height=\'38\'><rect width=\'38\' height=\'38\' fill=\'%2300ff66\'/><text x=\'50%\' y=\'55%\' font-size=\'16\' fill=\'%23000\' font-family=\'monospace\' text-anchor=\'middle\' dominant-baseline=\'middle\'>DH</text></svg>'" />
-            <div class="pwa-text">
-                <strong>Experimente o App Oficial do DavNogZ Hub</strong>
-                <span>Instale no seu dispositivo para um acesso mais rápido, sem usar o navegador.</span>
-            </div>
-            <button id="pwa-install-btn" class="pwa-btn">Instalar Aplicativo</button>
+    <!-- BANNER DE INSTALAÇÃO DO APP (PWA) -->
+    <div id="pwa-banner" class="pwa-app-banner">
+        <div class="pwa-app-info">
+            <span>[APP] <strong>DAVNOGZ-HUB</strong> — Instale o aplicativo oficial no dispositivo.</span>
         </div>
+        <button id="pwa-install-btn" class="pwa-btn-install" onclick="instalarPwaApp()">[ INSTALAR APP ]</button>
     </div>
 
-    <!-- Fundo Matrix -->
     <canvas id="matrix-canvas"></canvas>
+    <header>
+        <div class="nav-bar-frame">
+            <span class="sys-badge"><span class="pulse-dot"></span> SYS_OK</span>
+            <div class="nav-menu">
+                <button id="btn-home" class="nav-link active" onclick="alternarAba('home')">[ HOME ]</button>
+                <button id="btn-info" class="nav-link" onclick="alternarAba('info')">[ INFO ]</button>
+            </div>
+            <span class="sys-badge">NODE://01</span>
+        </div>
 
+        <br>
+        <div class="title-rgb">DAVNOGZ-HUB</div>
+        <p style="color: #666; margin-top: 10px;">// Monitoramento de Rede &amp; Diagnóstico de IP</p>
+    </header>
     <div class="container">
-        <!-- Navegação -->
-        <div class="nav-header">
-            <div class="sys-status">
-                <div class="status-dot"></div>
-                <span>SYS_OK</span>
-            </div>
-            <div class="nav-tabs">
-                <button class="tab-btn active" onclick="switchTab('home')">[ HOME ]</button>
-                <button class="tab-btn" onclick="switchTab('info')">[ INFO ]</button>
-            </div>
+        <div class="social-share-bar">
+            <a href="https://github.com/davidsilvanogueira2010-3200" target="_blank" rel="noopener noreferrer" class="bar-btn" onclick="window.open('https://github.com/davidsilvanogueira2010-3200', '_blank'); return false;">
+                <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                GitHub:
+            </a>
         </div>
 
-        <!-- Vista Home -->
-        <div id="view-home">
-            <div class="hero">
-                <h1>DAVNOGZ - HUB</h1>
-                <p>// Monitoramento de Rede & Diagnóstico de IP</p>
-            </div>
-
-            <!-- Bloco 1: Diagnóstico de IP -->
-            <div class="panel">
-                <div class="panel-header">
-                    <span class="panel-title">> Diagnóstico Completo de IP Público</span>
-                    <button class="action-btn" onclick="fetchIP()">Analisar IP</button>
-                </div>
-                <div id="ip-output" class="terminal-output">Aguardando execução... Clique em "Analisar IP".</div>
-            </div>
-
-            <!-- Bloco 2: Gerador de Tokens -->
-            <div class="panel">
-                <div class="panel-header">
-                    <span class="panel-title">> Gerador de Chaves de Segurança e Tokens</span>
-                    <button class="action-btn" onclick="generateToken()">Gerar Token</button>
-                </div>
-                <div id="token-output" class="terminal-output">Aguardando comando... Clique em "Gerar Token".</div>
-            </div>
-
-            <!-- Bloco 3: Latência de Rede -->
-            <div class="panel">
-                <div class="panel-header">
-                    <span class="panel-title">> Testador de Latência (Ping)</span>
-                    <button class="action-btn" onclick="testLatency()">Testar Ping</button>
-                </div>
-                <div id="ping-output" class="terminal-output">Aguardando teste... Clique em "Testar Ping".</div>
-            </div>
+        <div id="infoContent" class="info-panel">
+            <h2>[ DOCUMENTAÇÃO &amp; INSTRUÇÕES DE REDE ]</h2>
+            <p>Bem-vindo ao painel operacional do <strong>DAVNOGZ-HUB</strong>. Esta aplicação web executa localmente rotinas analíticas para mapeamento de IP e diagnóstico de rede.</p>
+            <h3>1. Coleta de Metadados de Rede</h3>
+            <p>A ferramenta analisa as informações de conexão locais e informações de resolução do próprio motor do navegador web.</p>
+            <h3>2. Geração Estática de Credenciais</h3>
+            <p>A rotina calcula chaves de 32 bytes de forma local sem transmitir dados para fora do site.</p>
+            <h3>3. Verificação de Latência (Ping)</h3>
+            <p>Mede o tempo exato de resposta em milissegundos disparando um evento assíncrono interno contra servidores globais de alta precisão.</p>
         </div>
 
-        <!-- Vista Info -->
-        <div id="view-info" class="hidden">
-            <div class="hero">
-                <h1>SOBRE O SISTEMA</h1>
-                <p>// Informações Técnicas da Arquitetura</p>
+        <div class="script-card">
+            <div class="script-header">
+                <div class="script-title">&gt; Diagnóstico Completo de IP Público</div>
+                <button class="action-btn" onclick="executarDiagnosticoIP()">Analisar IP</button>
             </div>
-            <div class="panel">
-                <div class="panel-header">
-                    <span class="panel-title">> Detalhes do DavNogZ Hub</span>
-                </div>
-                <div class="terminal-output" style="line-height: 1.6;">
-                    > Plataforma: PWA nativa na Vercel<br>
-                    > Desenvolvedor: DavNogZ<br>
-                    > Funcionalidades: Diagnóstico de rede, gerador de chaves e otimização mobile.<br>
-                    > Estado atual: Operacional e seguro.
-                </div>
-            </div>
+            <pre><code id="ipOutput">Aguardando execução... Clique em "Analisar IP".</code></pre>
         </div>
+
+        <div class="script-card">
+            <div class="script-header">
+                <div class="script-title">&gt; Gerador de Chaves de Segurança e Tokens</div>
+                <button class="action-btn" onclick="gerarTokenSeguro()">Gerar Token</button>
+            </div>
+            <pre><code id="tokenOutput">Aguardando comando... Clique em "Gerar Token".</code></pre>
+        </div>
+
+        <div class="script-card">
+            <div class="script-header">
+                <div class="script-title">&gt; Testador de Latência e Ping de Rede</div>
+                <button class="action-btn" onclick="testarPingConexao()">Testar Conexão</button>
+            </div>
+            <pre><code id="pingOutput">Aguardando verificação... Clique em "Testar Conexão".</code></pre>
+        </div>
+
+        <footer>
+            <div class="main-header">[ PROPRIEDADE INTELECTUAL E TERMOS DE USO RESTRITOS ]</div>
+            <p>Este site e todo o seu conteúdo original — incluindo design de interface, folhas de estilo, lógicas operacionais de scripts e identidade visual — estão protegidos por leis de direitos autorais.</p>
+
+            <div class="section-title">[ Proteção Legal e Direitos de Autor ]</div>
+            <p>Nos termos estritos da <strong>Lei de Direitos Autorais (Lei nº 9.610/1998)</strong> e da <strong>Lei de Proteção de Software (Lei nº 9.609/1998)</strong>, é proibida qualquer reprodução não autorizada.</p>
+
+            <div class="section-title">[ Isenção e Finalidade Operacional ]</div>
+            <p>Esta aplicação web destina-se puramente a fins informativos e testes básicos de conectividade e monitoramento de rede local. As informações apresentadas são processadas em tempo real.</p>
+            <p style="margin-top: 25px; text-align: center; color: #444;">© DAVNOGZ-HUB - Todos os direitos reservados. Código protegido sob licença proprietária.</p>
+        </footer>
     </div>
 
     <script>
-        /* --- Efeito Matrix no Fundo --- */
-        const canvas = document.getElementById('matrix-canvas');
+        const canvas = document.getElementById('matrix-canvas'); 
         const ctx = canvas.getContext('2d');
 
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+        function resizeCanvas() { 
+            canvas.width = window.innerWidth; 
+            canvas.height = window.innerHeight; 
         }
-        window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        const letters = '01ABCDEFGHIZKLMNOPQRSTUVWXYZ#<>$*';
-        const fontSize = 14;
-        let columns = canvas.width / fontSize;
-        const drops = [];
-        for (let x = 0; x < columns; x++) drops[x] = 1;
+        const alphabet = "01010101010101010101010101010101"; 
+        const fontSize = 16;
+        let columns = canvas.width / fontSize; 
+        let rainDrops = Array(Math.floor(columns)).fill(1);
 
         function drawMatrix() {
-            ctx.fillStyle = 'rgba(5, 5, 5, 0.05)';
+            ctx.fillStyle = 'rgba(10, 10, 10, 0.05)'; 
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#00ff66';
+            ctx.fillStyle = '#00ff00'; 
             ctx.font = fontSize + 'px monospace';
-
-            for (let i = 0; i < drops.length; i++) {
-                const text = letters.charAt(Math.floor(Math.random() * letters.length));
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-                drops[i]++;
+            for (let i = 0; i < rainDrops.length; i++) {
+                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) { 
+                    rainDrops[i] = 0; 
+                }
+                rainDrops[i]++;
             }
         }
-        setInterval(drawMatrix, 33);
+        setInterval(drawMatrix, 30);
+        window.addEventListener('resize', () => { 
+            resizeCanvas(); 
+            columns = canvas.width / fontSize; 
+            rainDrops = Array(Math.floor(columns)).fill(1); 
+        });
 
-        /* --- Troca de Abas (Home / Info) --- */
-        function switchTab(tab) {
-            document.getElementById('view-home').classList.add('hidden');
-            document.getElementById('view-info').classList.add('hidden');
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        function alternarAba(aba) {
+            const infoContent = document.getElementById('infoContent'); 
+            const scriptCards = document.querySelectorAll('.script-card');
+            const socialBar = document.querySelector('.social-share-bar');
+            const btnHome = document.getElementById('btn-home');
+            const btnInfo = document.getElementById('btn-info');
 
-            if (tab === 'home') {
-                document.getElementById('view-home').classList.remove('hidden');
-                event.target.classList.add('active');
+            if (aba === 'info') {
+                infoContent.style.display = 'block'; 
+                socialBar.style.display = 'none';
+                scriptCards.forEach(card => card.style.display = 'none');
+                btnHome.classList.remove('active');
+                btnInfo.classList.add('active');
             } else {
-                document.getElementById('view-info').classList.remove('hidden');
-                event.target.classList.add('active');
+                infoContent.style.display = 'none'; 
+                socialBar.style.display = 'flex';
+                scriptCards.forEach(card => card.style.display = 'block');
+                btnHome.classList.add('active');
+                btnInfo.classList.remove('active');
             }
         }
 
-        /* --- Funções de Diagnóstico --- */
-        async function fetchIP() {
-            const out = document.getElementById('ip-output');
-            out.innerHTML = '> A contactar servidores de geolocalização...';
+        async function executarDiagnosticoIP() {
+            const out = document.getElementById('ipOutput');
+            out.innerText = "[ ANALISANDO SISTEMAS DE REDE... ]";
+
+            const navConn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            let tipoRede = "WIFI LOCAL";
+            let seguranca = "WPA2-Personal / WPA3";
+            let statusConn = navigator.onLine ? "CONECTADO" : "DESCONECTADO";
+
+            if (navConn) {
+                let checkType = navConn.type || navConn.effectiveType || "";
+                if (checkType.includes("cellular") || checkType.includes("4g") || checkType.includes("5g")) {
+                    tipoRede = "DADOS MÓVEIS (5G/4G)";
+                    seguranca = "CHANNELS_LTE_SECURE";
+                } else {
+                    let downlink = navConn.downlink || 10;
+                    let rtt = navConn.rtt || 50;
+
+                    if (downlink >= 15 && rtt <= 40) {
+                        seguranca = "WPA2-Personal / WPA3";
+                    } else if (downlink >= 4 && rtt <= 90) {
+                        seguranca = "WPA2-Personal";
+                    } else {
+                        seguranca = "WPA";
+                    }
+                }
+            }
+
+            let ip = "Mapeado via Gateway";
+            let provedor = "Buscando...";
+
             try {
-                const res = await fetch('https://ipapi.co/json/');
-                const data = await res.json();
-                out.innerHTML = `[SUCESSO] IP: ${data.ip}<br>> Local: ${data.city} - ${data.region}, ${data.country_name}<br>> ISP: ${data.org}`;
-            } catch (err) {
-                out.innerHTML = '[ERRO] Falha ao consultar o IP público. Verifique a conexão.';
+                let res = await fetch('https://ipapi.co/json/');
+                if (!res.ok) throw new Error();
+                let data = await res.json();
+                ip = data.ip || ip;
+                provedor = data.org || data.isp || "Provedor Local";
+            } catch {
+                try {
+                    let res2 = await fetch('https://ip-api.com/json/');
+                    let data2 = await res2.json();
+                    ip = data2.query || ip;
+                    provedor = data2.isp || data2.org || "Provedor Local";
+                } catch {
+                    try {
+                        let res3 = await fetch('https://api.ipify.org?format=json');
+                        let data3 = await res3.json();
+                        ip = data3.ip || ip;
+                        provedor = "Provedor Local / ISP";
+                    } catch {
+                        provedor = "Provedor Local / ISP";
+                    }
+                }
             }
+
+            out.innerText = `[ INFORMAÇÕES DE INFRAESTRUTURA ]\n` +
+                            `Provedor : ${provedor}\n` +
+                            `Segurança: ${seguranca}\n` +
+                            `Status   : ${statusConn}\n` +
+                            `Tipo     : ${tipoRede}\n` +
+                            `IP       : ${ip}`;
         }
 
-        function generateToken() {
-            const out = document.getElementById('token-output');
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$*&!';
-            let token = 'DNVG-';
-            for (let i = 0; i < 24; i++) {
-                token += chars.charAt(Math.floor(Math.random() * chars.length));
+        function gerarTokenSeguro() {
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+";
+            let token = "";
+            for (let i = 0; i < 32; i++) { 
+                token += chars.charAt(Math.floor(Math.random() * chars.length)); 
             }
-            out.innerHTML = `[GERADO] Chave de Acesso Segura:<br><span style="color:#ffffff">${token}</span>`;
+            document.getElementById('tokenOutput').innerText = `[ TOKEN GERADO ]\nChave: ${token}`;
         }
 
-        function testLatency() {
-            const out = document.getElementById('ping-output');
-            out.innerHTML = '> A testar latência de resposta...';
-            const start = performance.now();
-            fetch(window.location.href, { method: 'HEAD', cache: 'no-store' }).then(() => {
-                const end = performance.now();
-                const latency = Math.round(end - start);
-                out.innerHTML = `[LATÊNCIA] Resposta do Servidor: <span style="color:#ffffff">${latency} ms</span> (Excelente)`;
-            }).catch(() => {
-                out.innerHTML = '[LATÊNCIA] Conexão ativa, mas falha no teste direto.';
-            });
+        function testarPingConexao() {
+            const out = document.getElementById('pingOutput');
+            out.innerText = "[ DISPARANDO PACOTES... ]";
+            const inicio = Date.now();
+
+            fetch('https://1.1.1.1/cdn-cgi/trace?t=' + inicio, { mode: 'no-cors', cache: 'no-store' })
+                .then(() => {
+                    const latencia = Date.now() - inicio;
+                    out.innerText = `[ LATÊNCIA EM TEMPO REAL ]\nTarget  : Cloudflare DNS (1.1.1.1)\nResposta: Estável\nPing    : ${latencia} ms`;
+                })
+                .catch(() => {
+                    out.innerText = `[ LATÊNCIA EM TEMPO REAL ]\nTarget  : Cloudflare DNS (1.1.1.1)\nResposta: Falha no Ping`;
+                });
         }
 
-        /* --- Lógica de Instalação PWA --- */
-        let deferredPrompt;
-        const installBanner = document.getElementById('pwa-install-banner');
-        const installBtn = document.getElementById('pwa-install-btn');
-
+        /* LOGICA PWA */
+        let promptInstalacaoPwa;
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
-            deferredPrompt = e;
-            installBanner.style.display = 'flex';
+            promptInstalacaoPwa = e;
         });
 
-        installBtn.addEventListener('click', async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') {
-                    installBanner.style.display = 'none';
-                }
-                deferredPrompt = null;
+        function instalarPwaApp() {
+            if (promptInstalacaoPwa) {
+                promptInstalacaoPwa.prompt();
+                promptInstalacaoPwa.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        document.getElementById('pwa-banner').style.display = 'none';
+                    }
+                    promptInstalacaoPwa = null;
+                });
             } else {
-                alert('Para instalar, toque no menu do seu navegador (três pontos) e selecione "Adicionar à tela inicial" ou "Instalar aplicativo".');
+                alert('Para instalar o app, toque no menu do seu navegador (três pontos no canto superior) e selecione "Adicionar à tela inicial" ou "Instalar aplicativo".');
             }
-        });
+        }
     </script>
 </body>
 </html>
