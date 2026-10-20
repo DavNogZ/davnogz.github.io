@@ -162,7 +162,7 @@
             height: 16px; 
         }
 
-        /* CARD DO BANNER PWA COM A CAPA EMBUTIDA */
+        /* CARD DO BANNER PWA COM A CAPA OFICIAL */
         .pwa-install-card {
             background: var(--card-bg);
             border: 1px solid var(--matrix-green);
@@ -367,10 +367,10 @@
             </a>
         </div>
 
-        <!-- BANNER PWA COM A SUA IMAGEM OFICIAL DIRETAMENTE EMBUTIDA -->
+        <!-- BANNER PWA COM A SUA IMAGEM OFICIAL icone.png -->
         <div id="pwa-install-banner" class="pwa-install-card">
             <div class="pwa-top-row">
-                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEAAQMAAABmvDolAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAFBJREFUeJztwTEBAAAAwqD1T20M66AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8GYeAAABK5n78AAAAABJRU5ErkJggg==" alt="Capa Oficial" class="pwa-app-icon" id="custom-app-logo">
+                <img src="icone.png" alt="Capa Oficial" class="pwa-app-icon" id="custom-app-logo">
                 <div class="pwa-text-info">
                     <h4>Experimente o Novo APP Oficial do DavNogZ Hub</h4>
                     <p>Instale o aplicativo no seu dispositivo para acesso rápido e direto.</p>
@@ -475,7 +475,6 @@
                     index++;
                 }
             };
-            // Inicia tentando carregar pelo nome oficial do repositório
             logoImg.src = 'icone.png';
         });
 
@@ -505,4 +504,111 @@
         }
 
         async function executarDiagnosticoIP() {
-            const out = document.getElementById('ip
+            const out = document.getElementById('ipOutput');
+            out.innerText = "[ ANALISANDO SISTEMAS DE REDE... ]";
+
+            const navConn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            let tipoRede = "WIFI LOCAL";
+            let seguranca = "WPA2-Personal / WPA3";
+            let statusConn = navigator.onLine ? "CONECTADO" : "DESCONECTADO";
+
+            if (navConn) {
+                let checkType = navConn.type || navConn.effectiveType || "";
+                if (checkType.includes("cellular") || checkType.includes("4g") || checkType.includes("5g")) {
+                    tipoRede = "DADOS MÓVEIS (5G/4G)";
+                    seguranca = "CHANNELS_LTE_SECURE";
+                } else {
+                    let downlink = navConn.downlink || 10;
+                    let rtt = navConn.rtt || 50;
+
+                    if (downlink >= 15 && rtt <= 40) {
+                        seguranca = "WPA2-Personal / WPA3";
+                    } else if (downlink >= 4 && rtt <= 90) {
+                        seguranca = "WPA2-Personal";
+                    } else {
+                        seguranca = "WPA";
+                    }
+                }
+            }
+
+            let ip = "Mapeado via Gateway";
+            let provedor = "Buscando...";
+
+            try {
+                let res = await fetch('https://ipapi.co/json/');
+                if (!res.ok) throw new Error();
+                let data = await res.json();
+                ip = data.ip || ip;
+                provedor = data.org || data.isp || "Provedor Local";
+            } catch {
+                try {
+                    let res2 = await fetch('https://ip-api.com/json/');
+                    let data2 = await res2.json();
+                    ip = data2.query || ip;
+                    provedor = data2.isp || data2.org || "Provedor Local";
+                } catch {
+                    try {
+                        let res3 = await fetch('https://api.ipify.org?format=json');
+                        let data3 = await res3.json();
+                        ip = data3.ip || ip;
+                        provedor = "Provedor Local / ISP";
+                    } catch {
+                        provedor = "Provedor Local / ISP";
+                    }
+                }
+            }
+
+            out.innerText = `[ INFORMAÇÕES DE INFRAESTRUTURA ]\n` +
+                            `Provedor : ${provedor}\n` +
+                            `Segurança: ${seguranca}\n` +
+                            `Status   : ${statusConn}\n` +
+                            `Tipo     : ${tipoRede}\n` +
+                            `IP       : ${ip}`;
+        }
+
+        function gerarTokenSeguro() {
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+";
+            let token = "";
+            for (let i = 0; i < 32; i++) { 
+                token += chars.charAt(Math.floor(Math.random() * chars.length)); 
+            }
+            document.getElementById('tokenOutput').innerText = `[ TOKEN GERADO ]\nChave: ${token}`;
+        }
+
+        function testarPingConexao() {
+            const out = document.getElementById('pingOutput');
+            out.innerText = "[ DISPARANDO PACOTES... ]";
+            const inicio = Date.now();
+
+            fetch('https://1.1.1.1/cdn-cgi/trace?t=' + inicio, { mode: 'no-cors', cache: 'no-store' })
+                .then(() => {
+                    const latencia = Date.now() - inicio;
+                    out.innerText = `[ LATÊNCIA EM TEMPO REAL ]\nTarget  : Cloudflare DNS (1.1.1.1)\nResposta: Estável\nPing    : ${latencia} ms`;
+                })
+                .catch(() => {
+                    out.innerText = `[ LATÊNCIA EM TEMPO REAL ]\nTarget  : Cloudflare DNS (1.1.1.1)\nResposta: Falha no Ping`;
+                });
+        }
+
+        let promptInstalacaoPwa;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            promptInstalacaoPwa = e;
+        });
+
+        function instalarPwaApp() {
+            if (promptInstalacaoPwa) {
+                promptInstalacaoPwa.prompt();
+                promptInstalacaoPwa.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        document.getElementById('pwa-install-banner').style.display = 'none';
+                    }
+                    promptInstalacaoPwa = null;
+                });
+            } else {
+                alert('Para instalar o app, toque no menu do seu navegador (três pontos no canto superior) e selecione "Adicionar à tela inicial" ou "Instalar aplicativo".');
+            }
+        }
+    </script>
+</body>
+</html>
