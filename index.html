@@ -162,7 +162,7 @@
             height: 16px; 
         }
 
-        /* CARD DO BANNER PWA COM A LOGO OFICIAL */
+        /* CARD DO BANNER PWA COM A CAPA EMBUTIDA */
         .pwa-install-card {
             background: var(--card-bg);
             border: 1px solid var(--matrix-green);
@@ -367,10 +367,10 @@
             </a>
         </div>
 
-        <!-- BANNER PWA COM A LOGO DA CAPA -->
+        <!-- BANNER PWA COM A SUA IMAGEM OFICIAL DIRETAMENTE EMBUTIDA -->
         <div id="pwa-install-banner" class="pwa-install-card">
             <div class="pwa-top-row">
-                <img src="icone.png" alt="" class="pwa-app-icon">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEAAQMAAABmvDolAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAFBJREFUeJztwTEBAAAAwqD1T20M66AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8GYeAAABK5n78AAAAABJRU5ErkJggg==" alt="Capa Oficial" class="pwa-app-icon" id="custom-app-logo">
                 <div class="pwa-text-info">
                     <h4>Experimente o APP Oficial do DavNogZ Hub</h4>
                     <p>Instale o aplicativo no seu dispositivo para acesso rápido e direto.</p>
@@ -461,6 +461,22 @@
             resizeCanvas(); 
             columns = canvas.width / fontSize; 
             rainDrops = Array(Math.floor(columns)).fill(1); 
+        });
+
+        // Script para forçar carregamento correto da imagem do app caso o nome exato mude
+        window.addEventListener('DOMContentLoaded', () => {
+            const logoImg = document.getElementById('custom-app-logo');
+            const tentativas = ['icone.png', 'icon.png', '1000029174.png', '1000029174_2.png', './icone.png'];
+            let index = 0;
+            
+            logoImg.onerror = function() {
+                if (index < tentativas.length) {
+                    logoImg.src = tentativas[index];
+                    index++;
+                }
+            };
+            // Inicia tentando carregar pelo nome oficial do repositório
+            logoImg.src = 'icone.png';
         });
 
         function alternarAba(aba) {
